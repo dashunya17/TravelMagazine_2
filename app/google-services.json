@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "747214251684",
+    "project_id": "travel-magazine-51fd9",
+    "storage_bucket": "travel-magazine-51fd9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747214251684:android:a047882366a6de7929e831",
+        "android_client_info": {
+          "package_name": "com.example.travelmagazine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc6cUqHA8uX4vVNTVbfNtoNdm21kyjiYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

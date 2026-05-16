@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MenuFragment"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textViewUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Имя пользователя"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@example.com"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="16dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Профиль"
+        app:cornerRadius="0dp"
+        app:backgroundTint="@color/botton"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/buttonFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Избранное"
+        app:cornerRadius="0dp"
+        app:backgroundTint="@color/botton"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/buttonSuggest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Предложить новое место"
+        app:cornerRadius="0dp"
+        app:backgroundTint="@color/botton"
+        android:textColor="@android:color/white"/>
+
+    <!-- Кнопка для админ-панели (по умолчанию скрыта, показывается только админам) -->
+    <Button
+        android:id="@+id/buttonAdminPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Панель администратора"
+        android:visibility="gone"
+        app:cornerRadius="0dp"
+        app:backgroundTint="#FF9800"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выйти"
+        app:cornerRadius="0dp"
+        app:backgroundTint="#F44336"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>
