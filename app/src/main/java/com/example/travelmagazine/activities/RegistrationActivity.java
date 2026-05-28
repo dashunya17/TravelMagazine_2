@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText userName, userEmail, userPassword;
-    private Button buttonRegister, buttonAut;
+    private Button buttonRegister, buttonAut, buttonGuest;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
@@ -45,6 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
         userPassword = findViewById(R.id.userPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
         buttonAut = findViewById(R.id.buttonAut);
+        buttonGuest = findViewById(R.id.buttonGuest);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +57,15 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegistrationActivity.this, AuthorizationActivity.class));
+            }
+        });
+
+        buttonGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveGuestStatus();
+                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                finish();
             }
         });
     }
@@ -91,6 +100,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         buttonRegister.setEnabled(false);
+        buttonRegister.setText("Регистрация...");
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -117,6 +127,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 buttonRegister.setEnabled(true);
+                                                buttonRegister.setText("Зарегистрироваться");
                                                 Toast.makeText(RegistrationActivity.this,
                                                         "Ошибка сохранения данных: " + e.getMessage(),
                                                         Toast.LENGTH_LONG).show();
@@ -126,6 +137,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             }
                         } else {
                             buttonRegister.setEnabled(true);
+                            buttonRegister.setText("Зарегистрироваться");
                             String errorMessage = task.getException().getMessage();
                             if (errorMessage != null) {
                                 if (errorMessage.contains("EMAIL_EXISTS")) {
@@ -134,7 +146,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                             Toast.LENGTH_LONG).show();
                                 } else if (errorMessage.contains("weak password")) {
                                     Toast.makeText(RegistrationActivity.this,
-                                            "Пароль слишком слабый",
+                                            "Пароль слишком слабый. Используйте не менее 6 символов.",
                                             Toast.LENGTH_LONG).show();
                                 } else if (errorMessage.contains("invalid email")) {
                                     Toast.makeText(RegistrationActivity.this,
@@ -155,6 +167,15 @@ public class RegistrationActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("is_logged_in", isLoggedIn);
+        editor.putBoolean("is_guest", false);
+        editor.apply();
+    }
+
+    private void saveGuestStatus() {
+        SharedPreferences sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("is_logged_in", true);
+        editor.putBoolean("is_guest", true);
         editor.apply();
     }
 }

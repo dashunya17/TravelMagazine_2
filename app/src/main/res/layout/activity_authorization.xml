@@ -8,38 +8,30 @@
     android:background="@android:color/white"
     tools:context=".activities.AuthorizationActivity">
 
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="170dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
         android:text="Вход"
-        android:textSize="36dp"
-        android:textColor="@color/bottonText"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="#6200EE"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="235dp"
-        android:layout_marginBottom="272dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="vertical"></LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45">
 
         <TextView
             android:id="@+id/textView6"
@@ -47,17 +39,23 @@
             android:layout_height="wrap_content"
             android:text="Email"
             android:textColor="#000000"
-            android:textSize="16dp" />
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Введите email"
             android:inputType="textEmailAddress"
             android:paddingTop="14dp"
-            android:paddingBottom="14dp" />
+            android:paddingBottom="14dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="16dp" />
 
         <TextView
             android:id="@+id/textView7"
@@ -65,59 +63,74 @@
             android:layout_height="wrap_content"
             android:text="Пароль"
             android:textColor="#000000"
-            android:textSize="16dp" />
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Введите пароль"
             android:inputType="textPassword"
             android:paddingTop="14dp"
-            android:paddingBottom="14dp" />
+            android:paddingBottom="14dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/editbox_background" />
+
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonAut"
-        android:layout_width="139dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="212dp"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="216dp"
         android:text="Войти"
-        android:textColor="@color/bottonText"
-        android:textSize="18dp"
-        app:backgroundTint="@color/botton"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#6200EE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="213dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="164dp"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="152dp"
         android:text="Зарегистрироваться"
-        android:textColor="@color/bottonText"
-        android:textSize="18dp"
-        app:backgroundTint="@color/botton"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#4CAF50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonGuest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="92dp"
-        android:text="Войти как гость"
-        android:textColor="@color/bottonText"
-        android:textSize="18dp"
-        app:backgroundTint="@color/botton"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="84dp"
+        android:text="Продолжить как гость"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#999999"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

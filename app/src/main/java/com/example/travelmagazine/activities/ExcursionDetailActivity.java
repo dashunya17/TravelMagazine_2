@@ -216,6 +216,7 @@ public class ExcursionDetailActivity extends AppCompatActivity {
         Button buttonSelectPhoto = view.findViewById(R.id.buttonSelectPhoto);
         ImageView imageViewPreview = view.findViewById(R.id.imageViewPreview);
 
+        // Устанавливаем цвет звезд для RatingBar
         ratingBarReview.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFC107")));
         ratingBarReview.setSecondaryProgressTintList(ColorStateList.valueOf(Color.parseColor("#E0E0E0")));
 
@@ -341,7 +342,6 @@ public class ExcursionDetailActivity extends AppCompatActivity {
             } else {
                 holder.textCost.setVisibility(View.GONE);
             }
-
             if (fb.getPhotoReview() != null && !fb.getPhotoReview().isEmpty()) {
                 holder.imageViewReview.setVisibility(View.VISIBLE);
                 Glide.with(holder.itemView.getContext())
