@@ -26,7 +26,7 @@ public class SuggestPlaceActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION = 100;
 
-    private EditText editName, editDescription;
+    private EditText editName, editCity, editDescription;
     private ImageView imageViewPreview;
     private Button buttonSelectImage, buttonSubmit;
 
@@ -42,17 +42,15 @@ public class SuggestPlaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest_place);
 
-        // Проверяем авторизацию перед загрузкой UI
         checkAuthAndProceed();
-
         checkPermission();
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         imagePickerHelper = new ImagePickerHelper(this);
-        imagePickerHelper.initialize();
 
         editName = findViewById(R.id.editName);
+        editCity = findViewById(R.id.editCity);
         editDescription = findViewById(R.id.editDescription);
         imageViewPreview = findViewById(R.id.imageViewPreview);
         buttonSelectImage = findViewById(R.id.buttonSelectImage);
@@ -90,7 +88,6 @@ public class SuggestPlaceActivity extends AppCompatActivity {
     private void checkAuthAndProceed() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // Показываем диалог входа
             showLoginDialog();
         }
     }
@@ -141,10 +138,16 @@ public class SuggestPlaceActivity extends AppCompatActivity {
 
     private void submitSuggestion() {
         String name = editName.getText().toString().trim();
+        String city = editCity.getText().toString().trim();
         String description = editDescription.getText().toString().trim();
 
         if (name.isEmpty()) {
             editName.setError("Введите название");
+            return;
+        }
+
+        if (city.isEmpty()) {
+            editCity.setError("Введите город");
             return;
         }
 
@@ -197,11 +200,14 @@ public class SuggestPlaceActivity extends AppCompatActivity {
         buttonSubmit.setEnabled(false);
         buttonSubmit.setText("Отправка...");
 
+        String city = editCity.getText().toString().trim();
+
         appeal newAppeal = new appeal(
                 mAuth.getCurrentUser().getUid(),
                 editName.getText().toString().trim(),
                 uploadedImageUrl != null ? uploadedImageUrl : "",
-                editDescription.getText().toString().trim()
+                editDescription.getText().toString().trim(),
+                city
         );
 
         db.collection("appeal").add(newAppeal)

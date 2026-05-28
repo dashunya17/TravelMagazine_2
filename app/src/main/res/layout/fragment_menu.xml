@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Имя пользователя"
+            android:textColor="#708090"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
@@ -62,7 +63,6 @@
         app:backgroundTint="@color/botton"
         android:textColor="@android:color/white"/>
 
-    <!-- Кнопка для админ-панели (по умолчанию скрыта, показывается только админам) -->
     <Button
         android:id="@+id/buttonAdminPanel"
         android:layout_width="match_parent"

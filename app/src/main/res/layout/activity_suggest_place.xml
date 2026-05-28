@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- Toolbar/Header -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -41,7 +40,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Форма предложения -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -89,6 +87,26 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Город"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:layout_marginBottom="8dp" />
+
+                    <EditText
+                        android:id="@+id/editCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Введите город (например: Москва, Санкт-Петербург)"
+                        android:padding="12dp"
+                        android:textColor="@color/black"
+                        android:background="@android:drawable/editbox_background"
+                        android:inputType="textCapWords"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Описание"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -116,7 +134,6 @@
                         android:textColor="@android:color/black"
                         android:layout_marginBottom="8dp" />
 
-                    <!-- ImageView для предпросмотра фото -->
                     <ImageView
                         android:id="@+id/imageViewPreview"
                         android:layout_width="match_parent"
@@ -127,7 +144,6 @@
                         android:visibility="gone"
                         android:layout_marginBottom="12dp" />
 
-                    <!-- Кнопка выбора фото -->
                     <Button
                         android:id="@+id/buttonSelectImage"
                         android:layout_width="match_parent"

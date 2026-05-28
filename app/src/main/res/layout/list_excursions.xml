@@ -33,6 +33,7 @@
             android:textSize="26sp"
             android:textStyle="bold"
             android:maxLines="2"
+            android:textColor="#708090"
             android:ellipsize="end"/>
 
         <LinearLayout
@@ -47,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Рейтинг:"
+                android:textColor="#708090"
                 android:textSize="20sp" />
 
             <RatingBar
@@ -65,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
+                android:textColor="#708090"
                 android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>

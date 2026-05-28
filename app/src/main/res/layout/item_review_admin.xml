@@ -15,7 +15,6 @@
         android:background="@android:color/white"
         android:padding="16dp">
 
-        <!-- Верхняя строка: пользователь и рейтинг -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +41,6 @@
 
         </LinearLayout>
 
-        <!-- Дата -->
         <TextView
             android:id="@+id/textDate"
             android:layout_width="match_parent"
@@ -52,7 +50,6 @@
             android:textSize="12sp"
             android:textColor="#999999" />
 
-        <!-- Изображение отзыва (если есть) -->
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -63,7 +60,6 @@
             android:background="#F0F0F0"
             android:visibility="gone" />
 
-        <!-- Текст отзыва -->
         <TextView
             android:id="@+id/textReview"
             android:layout_width="match_parent"
@@ -74,7 +70,6 @@
             android:textColor="#666666"
             android:lineSpacingExtra="4dp" />
 
-        <!-- Кнопки действий -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

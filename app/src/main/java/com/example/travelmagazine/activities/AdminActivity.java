@@ -39,7 +39,6 @@ public class AdminActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         imagePickerHelper = new ImagePickerHelper(this);
-        imagePickerHelper.initialize();
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);

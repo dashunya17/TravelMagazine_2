@@ -66,7 +66,6 @@ public class RegistrationActivity extends AppCompatActivity {
         final String email = userEmail.getText().toString().trim();
         final String password = userPassword.getText().toString().trim();
 
-        // Валидация
         if (username.isEmpty()) {
             userName.setError("Введите имя пользователя");
             userName.requestFocus();
@@ -107,7 +106,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                // Всё успешно!
                                                 saveLoginStatus(true);
                                                 Toast.makeText(RegistrationActivity.this,
                                                         "Регистрация успешна!", Toast.LENGTH_SHORT).show();

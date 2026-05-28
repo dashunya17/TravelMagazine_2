@@ -20,11 +20,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MenuFragment extends Fragment {
     private Button buttonProfile, buttonFavorites, buttonSuggest, buttonLogout;
-    private Button buttonAdminPanel; // Добавляем кнопку для админ-панели
+    private Button buttonAdminPanel;
     private TextView textViewUsername, textViewEmail;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private boolean isAdmin = false;
+    private boolean isGuest = false;
 
     public MenuFragment() {
         super(R.layout.fragment_menu);
@@ -33,57 +34,79 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE);
+        isGuest = sharedPref.getBoolean("is_guest", false);
         buttonProfile = view.findViewById(R.id.buttonProfile);
         buttonFavorites = view.findViewById(R.id.buttonFavorites);
         buttonSuggest = view.findViewById(R.id.buttonSuggest);
         buttonLogout = view.findViewById(R.id.buttonLogout);
-
-        // Инициализируем кнопку админ-панели (если она есть в layout)
         View adminButton = view.findViewById(R.id.buttonAdminPanel);
         if (adminButton != null) {
             buttonAdminPanel = (Button) adminButton;
         }
-
         textViewUsername = view.findViewById(R.id.textViewUsername);
         textViewEmail = view.findViewById(R.id.textViewEmail);
 
-        loadUserData();
-
+        if (isGuest) {
+            textViewUsername.setText("Гостевой режим");
+            textViewEmail.setText("Войдите для полного доступа");
+            if (buttonProfile != null) buttonProfile.setVisibility(View.GONE);
+            if (buttonFavorites != null) buttonFavorites.setVisibility(View.GONE);
+            if (buttonSuggest != null) buttonSuggest.setVisibility(View.GONE);
+            if (buttonAdminPanel != null) buttonAdminPanel.setVisibility(View.GONE);
+            if (buttonLogout != null) buttonLogout.setText("Войти");
+        } else {
+            loadUserData();
+        }
         if (buttonProfile != null) {
             buttonProfile.setOnClickListener(v -> {
                 Intent intent = new Intent(requireContext(), ActivityProfile.class);
                 startActivity(intent);
             });
         }
-
         if (buttonFavorites != null) {
             buttonFavorites.setOnClickListener(v -> {
-                Intent intent = new Intent(requireContext(), FavoritesActivity.class);
-                startActivity(intent);
+                if (isGuest) {
+                    showLoginRequiredMessage();
+                } else {
+                    Intent intent = new Intent(requireContext(), FavoritesActivity.class);
+                    startActivity(intent);
+                }
             });
         }
-
         if (buttonSuggest != null) {
             buttonSuggest.setOnClickListener(v -> {
-                Intent intent = new Intent(requireContext(), SuggestPlaceActivity.class);
-                startActivity(intent);
+                if (isGuest) {
+                    showLoginRequiredMessage();
+                } else {
+                    Intent intent = new Intent(requireContext(), SuggestPlaceActivity.class);
+                    startActivity(intent);
+                }
             });
         }
-
         if (buttonAdminPanel != null) {
             buttonAdminPanel.setOnClickListener(v -> {
                 Intent intent = new Intent(requireContext(), AdminActivity.class);
                 startActivity(intent);
             });
         }
-
         if (buttonLogout != null) {
-            buttonLogout.setOnClickListener(v -> logout());
+            buttonLogout.setOnClickListener(v -> {
+                if (isGuest) {
+                    Intent intent = new Intent(getActivity(), AuthorizationActivity.class);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } else {
+                    logout();
+                }
+            });
         }
+    }
+
+    private void showLoginRequiredMessage() {
+        Toast.makeText(getContext(), "Эта функция доступна только авторизованным пользователям", Toast.LENGTH_LONG).show();
     }
 
     private void loadUserData() {
@@ -92,7 +115,6 @@ public class MenuFragment extends Fragment {
             textViewEmail.setText("");
             return;
         }
-
         String userId = mAuth.getCurrentUser().getUid();
         db.collection("user").document(userId).get()
                 .addOnSuccessListener(doc -> {
@@ -103,7 +125,6 @@ public class MenuFragment extends Fragment {
                             textViewEmail.setText(currentUser.getEmail());
                             isAdmin = currentUser.isAdmin();
 
-                            // Показываем кнопку админ-панели только если пользователь - админ
                             if (buttonAdminPanel != null) {
                                 buttonAdminPanel.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
                             }
@@ -123,6 +144,7 @@ public class MenuFragment extends Fragment {
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("is_logged_in", false);
+        editor.putBoolean("is_guest", false);
         editor.apply();
 
         FirebaseAuth.getInstance().signOut();

@@ -47,8 +47,6 @@ public class CloudinaryStorage {
         }
 
         String publicId = "excursion_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString();
-
-        // Упрощённая загрузка БЕЗ параметров трансформации
         MediaManager.get()
                 .upload(imageUri)
                 .option("public_id", publicId)
@@ -58,12 +56,10 @@ public class CloudinaryStorage {
                     public void onStart(String requestId) {
                         Log.d(TAG, "Upload started: " + requestId);
                     }
-
                     @Override
                     public void onProgress(String requestId, long bytes, long total) {
                         Log.d(TAG, "Upload progress: " + (bytes * 100 / total) + "%");
                     }
-
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
                         String url = (String) resultData.get("secure_url");
@@ -72,7 +68,6 @@ public class CloudinaryStorage {
                             listener.onSuccess(url);
                         }
                     }
-
                     @Override
                     public void onError(String requestId, ErrorInfo error) {
                         Log.e(TAG, "Upload error: " + error.getDescription());
@@ -80,7 +75,6 @@ public class CloudinaryStorage {
                             listener.onError(error.getDescription());
                         }
                     }
-
                     @Override
                     public void onReschedule(String requestId, ErrorInfo error) {
                         Log.d(TAG, "Upload rescheduled");

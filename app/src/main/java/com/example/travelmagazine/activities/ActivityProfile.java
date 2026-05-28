@@ -44,12 +44,9 @@ public class ActivityProfile extends AppCompatActivity {
 
     private void loadStats() {
         String userId = mAuth.getCurrentUser().getUid();
-
-        // Количество отзывов
         db.collection("feedback").whereEqualTo("id_user", userId).get()
                 .addOnSuccessListener(query -> textTotalReviews.setText(String.valueOf(query.size())));
 
-        // Количество в избранном
         db.collection("favourites").whereEqualTo("id_user", userId).get()
                 .addOnSuccessListener(query -> textTotalFavorites.setText(String.valueOf(query.size())));
     }

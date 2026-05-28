@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Регистрация"
         android:textSize="36dp"
+        android:textColor="@color/bottonText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Имя пользователя"
+            android:textColor="#000000"
             android:textSize="16dp" />
 
         <EditText
@@ -62,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Email"
+            android:textColor="#000000"
             android:textSize="16dp" />
 
         <EditText
@@ -86,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textColor="#000000"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:hint="Введите пароль"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AuthorizationActivity extends AppCompatActivity {
     private EditText emailUser, passwordUser;
     private Button buttonAut, buttonRegister;
+    private TextView buttonGuest;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -41,6 +43,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         passwordUser = findViewById(R.id.password);
         buttonAut = findViewById(R.id.buttonAut);
         buttonRegister = findViewById(R.id.button);
+        buttonGuest = findViewById(R.id.buttonGuest);
 
         buttonAut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +57,15 @@ public class AuthorizationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AuthorizationActivity.this, RegistrationActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        buttonGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveLoginStatus(false);
+                startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
+                finish();
             }
         });
     }
@@ -109,13 +121,10 @@ public class AuthorizationActivity extends AppCompatActivity {
                                                                 "Добро пожаловать, " + (currentUser != null ? currentUser.getUsername() : firebaseUser.getEmail()),
                                                                 Toast.LENGTH_SHORT).show();
 
-                                                        // ПРОВЕРКА НА АДМИНА
                                                         if (currentUser != null && currentUser.isAdmin()) {
-                                                            // Переход на админскую активность
                                                             Intent intent = new Intent(AuthorizationActivity.this, AdminActivity.class);
                                                             startActivity(intent);
                                                         } else {
-                                                            // Обычный пользователь - на главный экран
                                                             Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
                                                             startActivity(intent);
                                                         }
@@ -166,6 +175,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("is_logged_in", isLoggedIn);
+        editor.putBoolean("is_guest", !isLoggedIn);
         editor.apply();
     }
 }

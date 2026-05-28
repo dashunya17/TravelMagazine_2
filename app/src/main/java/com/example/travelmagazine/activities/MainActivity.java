@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         boolean isLoggedIn = checkIfUserLoggedIn();
 
         if (!isLoggedIn) {
-
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
             finish();
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void animateFragment(Fragment fragment, boolean slideFromRight) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (slideFromRight) {
@@ -96,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkIfUserLoggedIn() {
         SharedPreferences sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE);
-        return sharedPref.getBoolean("is_logged_in", false);
+        boolean isLoggedIn = sharedPref.getBoolean("is_logged_in", false);
+        boolean isGuest = sharedPref.getBoolean("is_guest", false);
+        return isLoggedIn || isGuest;
     }
 }

@@ -47,7 +47,6 @@ public class ReviewsFragment extends Fragment {
     }
 
     private void loadReviews() {
-        // Используем "approved" (как в Firebase), а не "isApproved"
         db.collection("feedback")
                 .whereEqualTo("approved", false)
                 .get()
@@ -97,7 +96,7 @@ public class ReviewsFragment extends Fragment {
                         db.collection("excursion").document(excursionId)
                                 .update("estimation", averageRating)
                                 .addOnSuccessListener(aVoid -> {
-                                    Log.d("ReviewsFragment", "Rating updated: " );
+                                    Log.d("ReviewsFragment", "Rating updated: ");
                                 })
                                 .addOnFailureListener(e -> {
                                     Log.e("ReviewsFragment", "Rating update failed: " + e.getMessage());

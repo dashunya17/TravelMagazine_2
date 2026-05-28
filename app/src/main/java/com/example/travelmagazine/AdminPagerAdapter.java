@@ -25,6 +25,6 @@ public class AdminPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3; // Экскурсии, Заявки, Отзывы
+        return 3;
     }
 }

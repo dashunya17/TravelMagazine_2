@@ -33,6 +33,7 @@ public class AdminExcursionsFragment extends Fragment {
     private ImagePickerHelper imagePickerHelper;
     private List<excursion> excursionsList = new ArrayList<>();
     private ExcursionsAdapter adapter;
+    private boolean isImagePickerInitialized = false;
 
     public AdminExcursionsFragment() {
         super(R.layout.fragment_admin_excursions);
@@ -44,12 +45,6 @@ public class AdminExcursionsFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        // Исправлено: приводим FragmentActivity к AppCompatActivity
-        if (requireActivity() instanceof AppCompatActivity) {
-            imagePickerHelper = new ImagePickerHelper((AppCompatActivity) requireActivity());
-            imagePickerHelper.initialize();
-        }
-
         recyclerView = view.findViewById(R.id.recyclerExcursions);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -59,12 +54,18 @@ public class AdminExcursionsFragment extends Fragment {
         loadExcursions();
     }
 
+    private void initImagePicker() {
+        if (!isImagePickerInitialized && getActivity() != null && getActivity() instanceof AppCompatActivity) {
+            imagePickerHelper = new ImagePickerHelper((AppCompatActivity) getActivity());
+            isImagePickerInitialized = true;
+        }
+    }
+
     private void loadExcursions() {
         db.collection("excursion").addSnapshotListener((value, error) -> {
             if (error != null) return;
             if (value != null) {
                 excursionsList.clear();
-                // Исправлено: используем DocumentSnapshot вместо QueryDocumentSnapshot
                 for (DocumentSnapshot doc : value.getDocuments()) {
                     excursion exc = doc.toObject(excursion.class);
                     if (exc != null) {
@@ -131,7 +132,7 @@ public class AdminExcursionsFragment extends Fragment {
     }
 
     private void showEditDialog(excursion exc) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialogStyle);
         View view = getLayoutInflater().inflate(R.layout.dialog_add_excursion, null);
 
         EditText editName = view.findViewById(R.id.editName);
@@ -152,7 +153,12 @@ public class AdminExcursionsFragment extends Fragment {
 
         final String[] newPhotoUrl = {exc.getPhoto()};
 
-        buttonSelectPhoto.setOnClickListener(v ->
+        if (imagePickerHelper == null && getActivity() != null) {
+            imagePickerHelper = new ImagePickerHelper((AppCompatActivity) requireActivity());
+        }
+
+        buttonSelectPhoto.setOnClickListener(v -> {
+            if (imagePickerHelper != null) {
                 imagePickerHelper.pickImage(uri -> {
                     if (uri != null) {
                         CloudinaryStorage.uploadImageSimple(Uri.parse(uri),
@@ -170,7 +176,11 @@ public class AdminExcursionsFragment extends Fragment {
                                     }
                                 });
                     }
-                }));
+                });
+            } else {
+                Toast.makeText(getContext(), "Ошибка инициализации", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         builder.setView(view)
                 .setTitle("Редактировать экскурсию")
@@ -211,5 +221,4 @@ public class AdminExcursionsFragment extends Fragment {
                 .setNegativeButton("Отмена", null)
                 .show();
     }
-
 }

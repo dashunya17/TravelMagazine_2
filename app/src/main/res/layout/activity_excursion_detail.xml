@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Изображение экскурсии -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -24,7 +23,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_foreground" />
 
-            <!-- Кнопка "Назад" -->
             <ImageView
                 android:id="@+id/buttonBack"
                 android:layout_width="48dp"
@@ -35,7 +33,6 @@
                 android:background="@drawable/circle_background"
                 android:contentDescription="Назад" />
 
-            <!-- Кнопка "Избранное" -->
             <ImageView
                 android:id="@+id/buttonFavorite"
                 android:layout_width="48dp"
@@ -49,7 +46,6 @@
 
         </FrameLayout>
 
-        <!-- Остальной контент... -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="Рейтинг: "
                     android:textSize="16sp"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="#708090" />
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -123,12 +119,11 @@
                 android:layout_marginTop="8dp"
                 android:text="Здесь будет подробное описание экскурсии..."
                 android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="#708090"
                 android:lineSpacingExtra="4dp" />
 
         </LinearLayout>
 
-        <!-- Блок отзывов -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package com.example.travelmagazine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ public class HomeFragment extends Fragment {
     private ExcursionAdapter adapter;
     private List<excursion> excursions = new ArrayList<>();
     private FirebaseFirestore db;
+    private boolean isGuest = false;
 
     public HomeFragment() {
         super(R.layout.fragment_home);
@@ -32,27 +34,28 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.recyclerView);
         progressBar = view.findViewById(R.id.progressBar);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         db = FirebaseFirestore.getInstance();
 
+        if (getActivity() != null) {
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE);
+            isGuest = sharedPref.getBoolean("is_guest", false);
+            Log.d("HomeFragment", "Guest mode: " + isGuest);
+        }
         adapter = new ExcursionAdapter(excursions, excursion -> {
             Intent intent = new Intent(getContext(), ExcursionDetailActivity.class);
             intent.putExtra("excursion_id", excursion.getId());
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
-
         loadExcursions();
     }
 
     private void loadExcursions() {
         progressBar.setVisibility(View.VISIBLE);
-
+        Log.d("HomeFragment", "Loading excursions...");
         db.collection("excursion")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -60,18 +63,26 @@ public class HomeFragment extends Fragment {
                     List<excursion> tempList = new ArrayList<>();
                     if (queryDocumentSnapshots.isEmpty()) {
                         progressBar.setVisibility(View.GONE);
+                        Log.d("HomeFragment", "No excursions in database");
                         Toast.makeText(getContext(), "Нет экскурсий в базе", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    Log.d("HomeFragment", "Found " + queryDocumentSnapshots.size() + " documents");
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         try {
                             excursion exc = doc.toObject(excursion.class);
                             if (exc != null) {
                                 exc.setId(doc.getId());
-                                if (exc.isApproved()) {
+
+                                boolean isApproved = exc.isApproved();
+                                Log.d("HomeFragment", "Excursion: " + exc.getName() +
+                                        ", approved: " + isApproved);
+
+                                if (isApproved) {
                                     tempList.add(exc);
+                                    Log.d("HomeFragment", "Added: " + exc.getName());
                                 } else {
-                                    Log.d("HomeFragment", "SKIPPED (not approved): " + exc.getName());
+                                    Log.d("HomeFragment", "Skipped (not approved): " + exc.getName());
                                 }
                             } else {
                                 Log.e("HomeFragment", "excursion object is NULL for doc: " + doc.getId());
@@ -86,12 +97,15 @@ public class HomeFragment extends Fragment {
                     excursions.addAll(tempList);
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
+
+                    Log.d("HomeFragment", "Final count: " + excursions.size() + " excursions");
+
                     if (excursions.isEmpty()) {
-                        Log.d("HomeFragment", "NO excursions to display!");
-                        Toast.makeText(getContext(), "Нет доступных экскурсий", Toast.LENGTH_SHORT).show();
+                        Log.d("HomeFragment", "NO approved excursions to display!");
+                        Toast.makeText(getContext(), "Нет доступных экскурсий. Добавьте их через админ-панель.", Toast.LENGTH_LONG).show();
                     } else {
                         Log.d("HomeFragment", "SUCCESS! Displaying " + excursions.size() + " excursions");
-                        }
+                    }
                 })
                 .addOnFailureListener(e -> {
                     Log.e("HomeFragment", "Error loading: " + e.getMessage());
